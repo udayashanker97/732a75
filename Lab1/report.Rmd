@@ -1,0 +1,98 @@
+---
+title: "Lab Report: Lab1 - Clustering Lab"
+author: "Dhanush Kumar Reddy Narayana Reddy (dhana004), Udaya Shanker Mohanan Nair (udamo524)"
+date: "`r Sys.Date()`"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+number_sections: true
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(size = "small")
+```
+
+# Introduction
+
+Implementation of Kmeans, SimpleKMeans and density-based method.
+
+# SimpleKMeans
+
+**1. Choose a set of attributes for clustering and give a motivation. (Hint: always ignore attribute "name". Why does the name attribute need to be ignored?)**
+
+We choose attributes energy, fat, calcium as viewing values directly we could understand that energy, protein and fat contribute more than other attributes given. Name is always ignored because it is an identical attribute and does not contribute during clustering.
+
+
+**2. Experiment with at least two different numbers of clusters, e.g. 2 and 5, but with the same seed value 10.**
+
+In first experiment, tried with cluster value as 2 and seed value as 10 for all attributes mentioned in the first questions answer.
+
+```{r, echo=FALSE}
+knitr::include_graphics("/Users/uday/Documents/GitHub/732a75/lab1/Cluster4Seed10.png")
+```
+
+In second experiment, tried with cluster value as 4 and seed value as 10 for all attributes mentioned in the first questions answer.
+
+```{r, echo=FALSE}
+knitr::include_graphics("/Users/uday/Documents/GitHub/732a75/lab1/Cluster4Seed10.png")
+```
+
+**3. Then try with a different seed value, i.e. different initial cluster centers. Compare the results with the previous results. Explain what the seed value controls.**
+
+Changing seed value to 20.
+
+Results of first experiment
+
+```{r, echo=FALSE}
+knitr::include_graphics("/Users/uday/Documents/GitHub/732a75/lab1/Cluster2Seed20.png")
+```
+
+Results of second experiment
+
+```{r, echo=FALSE}
+knitr::include_graphics("/Users/uday/Documents/GitHub/732a75/lab1/Cluster2Seed20.png")
+```
+
+**Comparison of results**
+
+For Cluster 2
+
+Cluster sum of squared error changed from 1.94879 -> 1.93522. 
+
+For Cluster 4
+
+Cluster sum of squared error changed from 0.6841 -> 0.7243.
+
+**Seed value** controls the initial cluster centers, which controls the clustering.Different seed value results in different cluster formation and squeared error values.
+
+**4. Do you think the clusters are "good" clusters? (Are all of its members "similar" to each other? Are members from different clusters dissimilar?)**
+
+Clusters are not properly good, as for k=2, the clustering is weak where one cluster dominates the other for both cases of seed(10 or 20). When k=4, the clustering is better and clusters are distributed more fairly when compared to other k value for both the seed values.
+
+**5. What does each cluster represent? Choose one of the results. Make up labels (words or phrases in English) which characterize each cluster.**
+
+Below table shows the cluster distribution when k=2 and seed value is 10.
+
+```{r, echo=FALSE}
+library(knitr)
+
+data <- data.frame(
+  Cluster = c("0", "1", "2", "3"),
+  Energy = c(341.875, 180, 100.7143, 180),
+  Fat = c(28.875, 9.2727, 3.1429, 9),
+  Calcium = c(8.75, 12.1818, 88, 367),
+  Label = c(
+    "High-Fat, Energy, calicum product",
+    "Balanced Fat Energy Calcium product",
+    "Rich Calcium Dairy Product",
+    "High Calcium Product"
+  )
+)
+
+kable(data, caption = "Cluster Labelling")
+```
