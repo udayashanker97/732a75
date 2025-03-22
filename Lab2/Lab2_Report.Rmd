@@ -1,5 +1,5 @@
 ---
-title: "Lab Report: Lab1 - Association Analysis -1"
+title: "Lab Report: Lab2 - Association Analysis -1"
 author: "Dhanush Kumar Reddy Narayana Reddy (dhana004), Udaya Shanker Mohanan Nair (udamo524)"
 date: "`r Sys.Date()`"
 output: 
