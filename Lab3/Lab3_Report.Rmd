@@ -284,21 +284,42 @@ Log likelihood: -5.96262
 
 ## Association Analysis
 
-The **Assiociation analysis** conducted using the **Apriori algorithm** on the **Monk1 dataset**, which consists of 124 instances and 6 attributes, aimed to identify strong relationships among attribute values. The algorithm was configured with a minimum support threshold of *5%* and a minimum *confidence of 0.9*. Throughout **19 cycles**, the analysis identified a total of 17 frequent 1-itemsets, 118 frequent 2-itemsets, 214 frequent 3-itemsets, and 14 frequent 4-itemsets. Among the discovered rules, the most significant one states that if *attributes#2 equals 2*, *attribute#3 equal 1*, and *attributes#5 equal 4*, then *attributes#6 always 2*. This rule was found in 6 instance and exhibited a perfect *confidence of 1.0*, indicating a strong and consistent relationship within the dataset. Such a rule can be particularly useful for predicting attributes values or uncovering patterns in the data.
+Here, we applied the Aprior algorithm in Weka with settings:
+
+1.  Minimum support: 0.05 (at least 6 instances)
+
+2.  Minimum confidence: 0.9
+
+3.  Maximum number of rules: 19
+
+4.  Class attributes: class(set using -c last)
+
+This setup generated 19 rules, many of which perfectly predicted the *class=1* label.
+
+Among the 19 rules, we identified 4 non-redundant rules that together perfectly describe instance of *class = 1*:
+
+1.  attribute#5 = 1 =\> class = 1 (29 instances, confidence: 1)
+
+2.  attribute#1 = 3 \^ attributes#2 = 3 =\> class = 1 (17 instances, confidence: 1)
+
+3.  attribute#1 = 2 \^ attributes#2 = 2 =\> class = 1 (15 instances, confidence: 1)
+
+4.  attribute#1 = 1 \^ attributes#2 = 1 =\> class = 1 (9 instances, confidence: 1)
 
 ```{r, eval=FALSE}
 === Run information ===
 
 Scheme:       weka.associations.Apriori -N 19 -T 0 -C 0.9 -D 0.05 -U 1.0 -M 0.05 -S -1.0 -c -1
-Relation:     monk1-weka.filters.unsupervised.attribute.Remove-R7
+Relation:     monk1
 Instances:    124
-Attributes:   6
+Attributes:   7
               attribute#1
               attribute#2
               attribute#3
               attribute#4
               attribute#5
               attribute#6
+              class
 === Associator model (full training set) ===
 
 
@@ -311,15 +332,47 @@ Number of cycles performed: 19
 
 Generated sets of large itemsets:
 
-Size of set of large itemsets L(1): 17
+Size of set of large itemsets L(1): 19
 
-Size of set of large itemsets L(2): 118
+Size of set of large itemsets L(2): 151
 
-Size of set of large itemsets L(3): 214
+Size of set of large itemsets L(3): 378
 
-Size of set of large itemsets L(4): 14
+Size of set of large itemsets L(4): 125
+
+Size of set of large itemsets L(5): 6
 
 Best rules found:
 
- 1. attribute#2=2 attribute#3=1 attribute#5=4 6 ==> attribute#6=2 6    conf:(1)
+ 1. attribute#5=1 29 ==> class=1 29    conf:(1)
+ 2. attribute#1=3 attribute#2=3 17 ==> class=1 17    conf:(1)
+ 3. attribute#3=1 attribute#5=1 17 ==> class=1 17    conf:(1)
+ 4. attribute#5=1 attribute#6=1 16 ==> class=1 16    conf:(1)
+ 5. attribute#1=2 attribute#2=2 15 ==> class=1 15    conf:(1)
+ 6. attribute#1=3 attribute#5=1 13 ==> class=1 13    conf:(1)
+ 7. attribute#5=1 attribute#6=2 13 ==> class=1 13    conf:(1)
+ 8. attribute#2=3 attribute#5=1 12 ==> class=1 12    conf:(1)
+ 9. attribute#3=2 attribute#5=1 12 ==> class=1 12    conf:(1)
+10. attribute#1=3 attribute#2=3 attribute#6=2 12 ==> class=1 12    conf:(1)
+11. attribute#4=1 attribute#5=1 11 ==> class=1 11    conf:(1)
+12. attribute#1=2 attribute#5=1 10 ==> class=1 10    conf:(1)
+13. attribute#2=2 attribute#5=1 10 ==> class=1 10    conf:(1)
+14. attribute#1=1 attribute#2=1 9 ==> class=1 9    conf:(1)
+15. attribute#4=2 attribute#5=1 9 ==> class=1 9    conf:(1)
+16. attribute#4=3 attribute#5=1 9 ==> class=1 9    conf:(1)
+17. attribute#1=2 attribute#2=2 attribute#3=1 9 ==> class=1 9    conf:(1)
+18. attribute#1=3 attribute#2=3 attribute#3=1 9 ==> class=1 9    conf:(1)
+19. attribute#3=1 attribute#5=1 attribute#6=1 9 ==> class=1 9    conf:(1)
 ```
+
+## Questions
+
+**Does Clustering perform poorly on MONK1? Why or why not?**
+
+Yes, clustering performs poorly on the MONK1 data set in terms of recovering the original class labels. This is not because clustering algorithms are bad, but because:
+
+1.  They are unsupervised and do not have access to class labels.
+
+2.  The data set is better understood through rule-based (symbolic) relationships, not geometric ones.
+
+3.  Only association rule learning of supervised learning can uncover the exact logic behind the class label assignment.
